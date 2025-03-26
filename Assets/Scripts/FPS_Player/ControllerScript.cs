@@ -12,8 +12,8 @@ public class ControllerScript : MonoBehaviour
 
     CharacterController Cc;
     [SerializeField] float Speed=5;
-    float gravityValue = -0.0982f;
-    float jumpHeight = 0.05f;
+    float gravityValue = -0.16f;
+    float jumpHeight = 0.02f;
     float AppliedGravity;
 
     [Header("AnimatorSwitchVariables")]
@@ -40,7 +40,7 @@ public class ControllerScript : MonoBehaviour
         MovementVelocity = MovementDirection * Speed * Time.deltaTime;
         if (Cc.isGrounded && VerticalVelocity < 0) { 
             VerticalVelocity = 0; 
-            AppliedGravity = 0.01f; // Small Gravity Value when grounded 
+            AppliedGravity = gravityValue; // Small Gravity Value when grounded 
         }  else { AppliedGravity = gravityValue; }
         VerticalVelocity += AppliedGravity * Time.deltaTime;
         Debug.Log(VerticalVelocity);
