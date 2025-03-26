@@ -483,10 +483,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
       propertyPath: jumpHeight
-      value: 0.1
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
       propertyPath: gravityValue
+      value: -0.982
+      objectReference: {fileID: 0}
+    - target: {fileID: 8589535782907594117, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
+      propertyPath: m_MinMoveDistance
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8979763215739572236, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
