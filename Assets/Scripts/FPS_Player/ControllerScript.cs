@@ -8,11 +8,13 @@ public class ControllerScript : MonoBehaviour
     Vector2 movementInput;
     Vector3 MovementDirection;
     Vector3 MovementVelocity;
+    float VerticalVelocity=0;
 
     CharacterController Cc;
-    [SerializeField] float Speed=50;
-    [SerializeField] float gravityValue = -9.82f;
-    [SerializeField] float jumpHeight = 5f;
+    [SerializeField] float Speed=5;
+    float gravityValue = -0.0982f;
+    float jumpHeight = 0.05f;
+    float AppliedGravity;
 
     [Header("AnimatorSwitchVariables")]
     Animator animator;
@@ -30,22 +32,26 @@ public class ControllerScript : MonoBehaviour
     private void Update() {
         //   AnimatorParametersUpdate();
         HandleMovement();
-        Debug.Log(MovementVelocity.y);
 
     }
 
     void HandleMovement() {
         MovementDirection = (transform.forward*movementInput.y+transform.right*movementInput.x).normalized;
         MovementVelocity = MovementDirection * Speed * Time.deltaTime;
-        if (Cc.isGrounded) { MovementVelocity.y = 0; }
-        MovementVelocity.y += gravityValue * Time.deltaTime;
-        Cc.Move(MovementVelocity);
+        if (Cc.isGrounded && VerticalVelocity < 0) { 
+            VerticalVelocity = 0; 
+            AppliedGravity = 0.01f; // Small Gravity Value when grounded 
+        }  else { AppliedGravity = gravityValue; }
+        VerticalVelocity += AppliedGravity * Time.deltaTime;
+        Debug.Log(VerticalVelocity);
+
+        Cc.Move(new Vector3(MovementVelocity.x, VerticalVelocity, MovementVelocity.z));
+
     }
 
     void HandleJump() {
         if (Cc.isGrounded) {
-            MovementVelocity.y += Mathf.Sqrt(jumpHeight * -2.0f * gravityValue);
-            Debug.Log("YO YO BROTHER!!");
+            VerticalVelocity += Mathf.Sqrt(jumpHeight * -2.0f * gravityValue);
         }
     }
 
