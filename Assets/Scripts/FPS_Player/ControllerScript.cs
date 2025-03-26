@@ -35,7 +35,7 @@ public class ControllerScript : MonoBehaviour
     }
 
     void HandleMovement() {
-        MovementDirection = (new Vector3(movementInput.y, 0, movementInput.x)).normalized;
+        MovementDirection = (transform.forward*movementInput.y+transform.right*movementInput.x).normalized;
         MovementVelocity = MovementDirection * Speed * Time.deltaTime;
         if (Cc.isGrounded) { MovementVelocity.y = 0; }
         MovementVelocity.y += gravityValue * Time.deltaTime;
