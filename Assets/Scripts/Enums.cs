@@ -7,8 +7,8 @@ public enum LevelList {
 }
 
 public enum CharacterList {
-    A,
-    B,
-    C,
-    D
+    Fire,
+    Water,
+    Air,
+    Earth
 }

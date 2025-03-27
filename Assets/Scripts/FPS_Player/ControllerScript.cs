@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using Photon.Pun;
+using UnityEngine.UIElements;
 
-public class ControllerScript : MonoBehaviour
+public class ControllerScript : MonoBehaviourPunCallbacks
 {
     IAPlayer PlayerInputAction;
     Vector2 movementInput;
@@ -20,13 +22,19 @@ public class ControllerScript : MonoBehaviour
     float ACSpeedCounter;
     bool SprintPressed = false;
 
+    Vector3 networkposition;
+
     [Header("AnimatorSwitchVariables")]
     Animator animator;
     int IsGroundedHash;
     int FwdSpeedHash;
     int RightSpeedHash;
 
+
+
     private void Awake() {
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 5;
         Cc = GetComponent<CharacterController>();
         InitializeInputAction();
      //   HashAnimatorParameters();
@@ -91,9 +99,27 @@ public class ControllerScript : MonoBehaviour
     }
 
     private void OnEnable() {
+        base.OnEnable();
         PlayerInputAction.Enable(); 
     }
     private void OnDisable() {
+        base.OnDisable();
         PlayerInputAction.Disable();
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+
+        if (stream.IsWriting) {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+            stream.SendNext(MovementVelocity);
+
+        } else {
+            networkposition = (Vector3) stream.ReceiveNext();
+            MovementVelocity = (Vector3) stream.ReceiveNext();
+            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.timestamp));
+            networkposition += MovementVelocity * lag;
+            transform.position = networkposition;   
+        }
     }
 }
