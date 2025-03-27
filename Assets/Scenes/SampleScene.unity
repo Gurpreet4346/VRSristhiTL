@@ -1203,7 +1203,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6039531495706205215, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.83
+      value: 6.98
       objectReference: {fileID: 0}
     - target: {fileID: 6039531495706205215, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1238,108 +1238,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: jumpHeight
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: gravityValue
-      value: -0.982
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
       propertyPath: WalkSprintCurve.m_Curve.Array.data[0].time
-      value: 0
+      value: -0.039146423
       objectReference: {fileID: 0}
     - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
       propertyPath: WalkSprintCurve.m_Curve.Array.data[1].time
-      value: 0.8260199
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[2].time
-      value: 1.4961773
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[3].time
-      value: 3.1318665
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[4].time
-      value: 4.477844
+      value: 0.66748106
       objectReference: {fileID: 0}
     - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
       propertyPath: WalkSprintCurve.m_Curve.Array.data[0].value
-      value: 0.2937317
+      value: 0.34753418
       objectReference: {fileID: 0}
     - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
       propertyPath: WalkSprintCurve.m_Curve.Array.data[1].value
-      value: 0.8374661
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[2].value
-      value: 1.0035737
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[3].value
-      value: 1.808985
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[4].value
-      value: 1.6035101
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[1].inSlope
-      value: 0.31088609
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[2].inSlope
-      value: 0.5863471
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[3].inSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[1].inWeight
-      value: 0.33333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[1].outSlope
-      value: 0.31088609
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[2].inWeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[2].outSlope
-      value: 0.5863471
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[3].inWeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[3].outSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[1].outWeight
-      value: 0.76076245
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[2].outWeight
-      value: 0.7348296
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910718654578946955, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: WalkSprintCurve.m_Curve.Array.data[3].outWeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8589535782907594117, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
-      propertyPath: m_MinMoveDistance
-      value: 0
+      value: 0.7272061
       objectReference: {fileID: 0}
     - target: {fileID: 8979763215739572236, guid: 60b1f0d47cc60734989cfa1a46a09d47, type: 3}
       propertyPath: m_Name

@@ -44,6 +44,7 @@ public class ControllerScript : MonoBehaviour
         if (!SprintPressed) { if (ACSpeedCounter> MaxWalkSpeedTime) { ACSpeedCounter-=2*Time.deltaTime; } }
     }
 
+
     void HandleMovement() {
         MovementInput = (transform.forward*movementInput.y+transform.right*movementInput.x).normalized;
         AnimationCurveCounter();

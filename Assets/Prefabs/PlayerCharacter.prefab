@@ -219,7 +219,7 @@ CharacterController:
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.01
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7910718654578946955
 MonoBehaviour:
@@ -234,5 +234,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 5
-  gravityValue: -9.82
-  jumpHeight: 5
+  WalkSprintCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.2937317
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.8260199
+      value: 0.8374661
+      inSlope: 0.31088609
+      outSlope: 0.31088609
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.76076245
+    - serializedVersion: 3
+      time: 1.4961773
+      value: 1.0035737
+      inSlope: 0.5863471
+      outSlope: 0.5863471
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.7348296
+    - serializedVersion: 3
+      time: 3.1318665
+      value: 1.808985
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  MaxWalkSpeedTime: 1.5
