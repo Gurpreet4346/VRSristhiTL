@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6659132510150963027
 RectTransform:
   m_ObjectHideFlags: 0
@@ -944,7 +944,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1110318142115804582
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1169,8 +1169,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.138, y: 0.194, z: 0.721}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.1, y: 0.2, z: 0.1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6039531495706205215}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -1391,8 +1391,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.20675047, w: 0.97839373}
   m_LocalPosition: {x: -0.062, y: 0.295, z: -0.598}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.1, y: 0.2, z: 0.1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6039531495706205215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -23.864}
@@ -1663,7 +1663,7 @@ MonoBehaviour:
   UIWeaponImage: {fileID: 3172181313425389593}
   HandAttachPoint: {fileID: 5571988905310005652}
   BackAttachPoint: {fileID: 7391485928986460291}
-  CameraObj: {fileID: 0}
+  CameraObj: {fileID: 5090745564320673061}
   Speed: 5
   WalkSprintCurve:
     serializedVersion: 2

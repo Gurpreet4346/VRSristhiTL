@@ -41,7 +41,6 @@ public class GunMaster : MonoBehaviour, IGun {
     bool InHand =false;
     bool pickedup = false;
 
-    //break condition => shoot.cancelled => StopCoroutine
 
     private void Awake() {
         GunRigidBody= GetComponent<Rigidbody>();
@@ -164,13 +163,14 @@ public class GunMaster : MonoBehaviour, IGun {
 
     IEnumerator Reload() {
         IsReloading = true;
+
         if (ClipAmmo < MaxClipSize && InventoryAmmo > 0) {
             yield return new WaitForSeconds(reloadTime);
             if (InventoryAmmo > MaxClipSize) {
+                InventoryAmmo = MaxClipSize- ClipAmmo;
                 ClipAmmo = MaxClipSize;
-                InventoryAmmo -= MaxClipSize;
             } else {
-                ClipAmmo = InventoryAmmo;
+                ClipAmmo += InventoryAmmo;
                 InventoryAmmo = 0;
             }
             ClipAmmoAmount.text = ClipAmmo.ToString();
@@ -179,6 +179,7 @@ public class GunMaster : MonoBehaviour, IGun {
             IsReloading = false;
 
         }
+        yield break;
 
     }
 
