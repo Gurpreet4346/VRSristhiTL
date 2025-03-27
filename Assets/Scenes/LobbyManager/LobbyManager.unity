@@ -1412,7 +1412,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 805865300}
         m_TargetAssemblyTypeName: HostJoinGame, Assembly-CSharp
-        m_MethodName: EnableHostButton
+        m_MethodName: EnableJoinButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
