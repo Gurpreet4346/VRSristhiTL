@@ -26,8 +26,8 @@ public class ControllerScript : MonoBehaviourPunCallbacks
     SphereCollider SphereColliderInteraction;
 
     GameObject GunInteracttable;
-    IGun GunHand;
-    IGun GunBack;
+    IGun IGunHand=null;
+    IGun IGunBack=null;
 
 
     CharacterController Cc;
@@ -66,15 +66,65 @@ public class ControllerScript : MonoBehaviourPunCallbacks
 
     }
 
+    void Interact(InputAction.CallbackContext callbackContext) {
+        if (GunInteracttable != null) {
+            GunInteract(GunInteracttable.GetComponent<IGun>());
+        }
+
+
+    }
+
+    void GunInteract(IGun Interactable) {
+        if (IGunHand != null) {
+            if (IGunBack == null) {
+                IGunHand.StoreWeaponOnBack();
+                IGunBack = IGunHand;
+            } else {
+                IGunHand.DropWeapon();
+            }
+        } 
+        IGunHand = Interactable;
+        Debug.Log("WE are reaching here");
+        Interactable.HandShake(HandAttachPoint, BackAttachPoint, false, AmmoClip, AmmoInventory, UIWeaponImage);
+        GunInteracttable = null;
+
+        
+    }
+
+    void DropWeapon() {
+        IGunHand.DropWeapon();
+        IGunHand= null;
+    }
+
+    void SwapWeapon() {
+        if (IGunHand != null) {
+            IGunHand.StoreWeaponOnBack();
+            if (IGunBack != null) {
+                IGun temp = IGunHand;
+                IGunHand = IGunBack;
+                IGunBack = temp;
+                IGunHand.HandShake(HandAttachPoint, BackAttachPoint, false, AmmoClip, AmmoInventory, UIWeaponImage);
+            } else {
+                IGunBack = IGunHand;
+                IGunHand = null;
+
+            }
+        } else {
+            if (IGunBack != null) {
+                IGunHand = IGunBack;
+                IGunBack = null;
+                IGunHand.HandShake(HandAttachPoint, BackAttachPoint, false, AmmoClip, AmmoInventory, UIWeaponImage);
+            }
+        }
+    }
+
+
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "GunInteractable" && GetComponent<PhotonView>().IsMine) {
             GunInteracttable = other.gameObject;
             if (other.gameObject.TryGetComponent(out IGun GunInterface)) {
                 GunInterface.UIGunDisplay(CameraObj);
             }
-
-
-
         }
     }
 
@@ -105,7 +155,6 @@ public class ControllerScript : MonoBehaviourPunCallbacks
             AppliedGravity = gravityValue; // Small Gravity Value when grounded 
         }  else { AppliedGravity = gravityValue; }
         VerticalVelocity += AppliedGravity * Time.deltaTime;
-        Debug.Log(VerticalVelocity);
         Cc.Move(new Vector3(MovementVelocity.x, VerticalVelocity, MovementVelocity.z));
 
     }
@@ -129,6 +178,7 @@ public class ControllerScript : MonoBehaviourPunCallbacks
         RightSpeedHash = Animator.StringToHash("RightSpeed");
     }
 
+
     void InitializeInputAction() {
         PlayerInputAction = new IAPlayer();
         if (GetComponent<PhotonView>().IsMine) { 
@@ -138,6 +188,13 @@ public class ControllerScript : MonoBehaviourPunCallbacks
         PlayerInputAction.Locomotion.Jump.started += ctx => HandleJump();
         PlayerInputAction.Locomotion.Sprint.started += ctx => SprintPressed = true;
         PlayerInputAction.Locomotion.Sprint.canceled += ctx => SprintPressed = false;
+        PlayerInputAction.Interaction.Interact.started += ctx => { Interact(ctx); };
+        PlayerInputAction.Interaction.Swap.started += ctx => { SwapWeapon(); };
+        PlayerInputAction.Interaction.DropWeapon.started += ctx => { DropWeapon(); }; 
+        PlayerInputAction.Interaction.Fire.started += ctx => { if (IGunHand != null) { Debug.Log("I called"); IGunHand.GunTriggerPressed(); } };
+        PlayerInputAction.Interaction.Fire.canceled += ctx => { if (IGunHand != null) { IGunHand.GunTriggerRelease(); } };
+        PlayerInputAction.Interaction.Reload.started += ctx => { if (IGunHand != null) { IGunHand.ReloadGun(); } };
+
         }
     }
 

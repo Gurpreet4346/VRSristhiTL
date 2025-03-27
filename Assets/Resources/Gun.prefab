@@ -291,11 +291,12 @@ MonoBehaviour:
   ProjectileSpeed: 500
   ClipAmmo: 30
   FiringRateBulletShootInterval: 0.1
-  reloadTime: 3
+  reloadTime: 0.6
   isAutomatic: 1
   UICanvas: {fileID: 3864909889670940459}
   GunImage: {fileID: 21300000, guid: c855fe45814e13d44adea653a16e4404, type: 3}
   GunTip: {fileID: 3731029249865130717}
+  projectile: {fileID: 4270719553484834002, guid: 8f2780e5c0fa4674683e9a19f99b4126, type: 3}
 --- !u!65 &3405402518160160099
 BoxCollider:
   m_ObjectHideFlags: 0

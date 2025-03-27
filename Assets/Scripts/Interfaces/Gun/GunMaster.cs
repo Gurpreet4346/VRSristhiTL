@@ -29,7 +29,7 @@ public class GunMaster : MonoBehaviour, IGun {
     bool firingCooldownActive;
     Vector3 destination;
     [SerializeField] Transform GunTip;
-    BulletMaster projectile;
+    [SerializeField] BulletMaster projectile;
     Ray ray;
     GameObject HandAttachPoint;
     GameObject BackAttachPoint;
@@ -105,9 +105,10 @@ public class GunMaster : MonoBehaviour, IGun {
         UIWeaponImage.SetActive(true);
         AmmoClip.gameObject.SetActive(true);
         AmmoInventory.gameObject.SetActive(true);
+        UICanvas.SetActive(false);
+        UILookAtPlayer = false;
 
         EquipWeaponInHand();
-        UICanvas.SetActive(false);
 
     }
 
@@ -121,6 +122,12 @@ public class GunMaster : MonoBehaviour, IGun {
         InHand = false;
         pickedup = true;
         GunRigidBody.isKinematic = true;
+        GunImageUI.SetActive(false);
+        ClipAmmoAmount.gameObject.SetActive(false);
+        InventoryAmmoAmount.gameObject.SetActive(false);
+        GunImageUI = null;
+
+
     }
 
     public void DropWeapon() {
