@@ -1,8 +1,10 @@
 using System.Collections;
 using UnityEngine;
-
-public class GunMaster : MonoBehaviour
-{
+using TMPro;
+using UnityEngine.UI;
+using Unity.VisualScripting;
+public class GunMaster : MonoBehaviour, IGun {
+    bool interactable = true;
     [SerializeField] int InventoryAmmo=30;
     [SerializeField] int MaxClipSize=30;
     [SerializeField] int ProjectileSpeed= 500;
@@ -10,6 +12,18 @@ public class GunMaster : MonoBehaviour
     [SerializeField] float FiringRateBulletShootInterval=0.1f;
     [SerializeField] float reloadTime=3f;
     [SerializeField] bool isAutomatic;
+    [Header("UI")]
+    TMP_Text ClipAmmoAmount;
+    TMP_Text InventoryAmmoAmount;
+    GameObject GunImageUI;
+    [SerializeField] GameObject UICanvas;
+    [SerializeField] Sprite GunImage;
+
+    Vector3 lookDirection;
+
+    GameObject Player;
+    private SphereCollider SphereCollider;
+    private BoxCollider BoxCollider;
     bool IsReloading;
     bool FirePressed=true;
     bool firingCooldownActive;
@@ -20,6 +34,9 @@ public class GunMaster : MonoBehaviour
     GameObject HandAttachPoint;
     GameObject BackAttachPoint;
     Rigidbody GunRigidBody;
+    Camera cam;
+    bool AI;
+    bool UILookAtPlayer;
 
     bool InHand =false;
     bool pickedup = false;
@@ -28,6 +45,8 @@ public class GunMaster : MonoBehaviour
 
     private void Awake() {
         GunRigidBody= GetComponent<Rigidbody>();
+        SphereCollider=GetComponent<SphereCollider>();
+        BoxCollider=GetComponent<BoxCollider>();
     }
 
     private void Update() {
@@ -41,38 +60,100 @@ public class GunMaster : MonoBehaviour
             transform.rotation = BackAttachPoint.transform.rotation;
             transform.localScale = BackAttachPoint.transform.localScale;
         }
+
+        if (UILookAtPlayer) {
+            lookDirection = cam.transform.position - UICanvas.transform.position;
+            lookDirection.y = 0;
+            if (lookDirection != Vector3.zero) {
+                Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+                UICanvas.transform.rotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
+            }
+
+        }
     }
 
-    public void EquipWeaponInHand(GameObject AttachmentPoint) {
-        HandAttachPoint= AttachmentPoint;
+    public void UIGunDisplay(Camera p_cam) {
+        cam = p_cam;
+        UICanvas.SetActive(true);
+        UILookAtPlayer = true;
+        
+    }
+    public void UIGunUnDisplay() {
+        cam = null;
+        UICanvas.SetActive(false);
+        UILookAtPlayer = false;
+
+    }
+
+
+
+    public void HandShake(GameObject p_HandAttachPoint,GameObject p_BackAttachPoint,  bool p_AI, TMP_Text AmmoClip, TMP_Text AmmoInventory, GameObject UIWeaponImage) {
+        HandAttachPoint = p_HandAttachPoint;
+        BackAttachPoint = p_BackAttachPoint;
+        AI = p_AI;
+        UILookAtPlayer = false;
+        interactable = false;
+        SphereCollider.enabled = false;
+        BoxCollider.enabled = false;
+        ClipAmmoAmount = AmmoClip;
+        InventoryAmmoAmount = AmmoInventory;
+        GunImageUI = UIWeaponImage;
+        UIWeaponImage.GetComponent<Image>().sprite= GunImage;
+        ClipAmmoAmount.text = ClipAmmo.ToString();
+        InventoryAmmoAmount.text = InventoryAmmo.ToString();
+
+        UIWeaponImage.SetActive(true);
+        AmmoClip.gameObject.SetActive(true);
+        AmmoInventory.gameObject.SetActive(true);
+
+        EquipWeaponInHand();
+        UICanvas.SetActive(false);
+
+    }
+
+    public void EquipWeaponInHand() {
         InHand= true;
         pickedup = true;
         GunRigidBody.isKinematic = true; 
     }
 
-    public void StoreWeaponOnBack(GameObject AttachmentPoint) {
-        BackAttachPoint = AttachmentPoint;
+    public void StoreWeaponOnBack() {
         InHand = false;
         pickedup = true;
         GunRigidBody.isKinematic = true;
     }
 
     public void DropWeapon() {
+        GunImageUI.SetActive(false);
+        ClipAmmoAmount.gameObject.SetActive(false);
+        InventoryAmmoAmount.gameObject.SetActive(false);
+        GunImageUI=null;
+        ClipAmmoAmount = null;
+        InventoryAmmoAmount = null;
         pickedup = false;
         InHand = false;
         GunRigidBody.isKinematic = false;
+        HandAttachPoint = null;
+        BackAttachPoint= null;
+        interactable = true;
+        SphereCollider.enabled = true;
+        BoxCollider.enabled = true;
+
     }
 
 
-    public void TriggerPressed(Camera cam, bool AI) {
+    public void GunTriggerPressed() {
         FirePressed = true;
-        StartCoroutine(FireOnServer(cam, AI));
+        StartCoroutine(FireOnServer());
     }
 
-    public void TriggerRelease() {
+    public void GunTriggerRelease() {
         FirePressed = false;
     }
 
+    public void ReloadGun() {
+        StartCoroutine(Reload());
+    }
 
     IEnumerator Reload() {
         IsReloading = true;
@@ -85,6 +166,9 @@ public class GunMaster : MonoBehaviour
                 ClipAmmo = InventoryAmmo;
                 InventoryAmmo = 0;
             }
+            ClipAmmoAmount.text = ClipAmmo.ToString();
+            InventoryAmmoAmount.text = InventoryAmmo.ToString();
+
             IsReloading = false;
 
         }
@@ -92,12 +176,13 @@ public class GunMaster : MonoBehaviour
     }
 
 
-    IEnumerator FireOnServer(Camera cam, bool AI) {
+    IEnumerator FireOnServer() {
         if (!firingCooldownActive && !IsReloading) {
             if (ClipAmmo > 0) {
-                ShootProjectile(cam, AI);
+                ShootProjectile();
                 firingCooldownActive = true;
                 ClipAmmo--;
+                ClipAmmoAmount.text = ClipAmmo.ToString();
 
             } else {
                 StartCoroutine(Reload());
@@ -106,7 +191,7 @@ public class GunMaster : MonoBehaviour
             yield return new WaitForSeconds(FiringRateBulletShootInterval);
             firingCooldownActive = false;
             if (isAutomatic && FirePressed) {
-                yield return StartCoroutine(FireOnServer(cam, AI));
+                yield return StartCoroutine(FireOnServer());
             } else { yield break; }
         } else { yield break; }
 
@@ -115,7 +200,7 @@ public class GunMaster : MonoBehaviour
 
 
 
-    void ShootProjectile(Camera cam, bool AI) {
+    void ShootProjectile() {
         if (!AI) {
             ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         } else {

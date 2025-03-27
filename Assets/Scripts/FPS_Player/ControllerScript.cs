@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine.UIElements;
+using TMPro;
+using Unity.VisualScripting;
 
 public class ControllerScript : MonoBehaviourPunCallbacks
 {
@@ -11,6 +13,22 @@ public class ControllerScript : MonoBehaviourPunCallbacks
     Vector3 MovementInput;
     Vector3 MovementVelocity;
     float VerticalVelocity=0;
+
+    int health;
+    [SerializeField] TMP_Text healthText;
+    [SerializeField] TMP_Text AmmoClip;
+    [SerializeField] TMP_Text AmmoInventory;
+    [SerializeField] GameObject UIWeaponImage;
+    [SerializeField] GameObject HandAttachPoint;
+    [SerializeField] GameObject BackAttachPoint;
+    [SerializeField] Camera CameraObj;
+
+    SphereCollider SphereColliderInteraction;
+
+    GameObject GunInteracttable;
+    IGun GunHand;
+    IGun GunBack;
+
 
     CharacterController Cc;
     [SerializeField] float Speed=5;
@@ -37,6 +55,7 @@ public class ControllerScript : MonoBehaviourPunCallbacks
         PhotonNetwork.SerializationRate = 5;
         Cc = GetComponent<CharacterController>();
         InitializeInputAction();
+        SphereColliderInteraction = GetComponent<SphereCollider>();
      //   HashAnimatorParameters();
 
     }
@@ -45,6 +64,27 @@ public class ControllerScript : MonoBehaviourPunCallbacks
         //   AnimatorParametersUpdate();
         HandleMovement();
 
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.tag == "GunInteractable" && GetComponent<PhotonView>().IsMine) {
+            GunInteracttable = other.gameObject;
+            if (other.gameObject.TryGetComponent(out IGun GunInterface)) {
+                GunInterface.UIGunDisplay(CameraObj);
+            }
+
+
+
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.gameObject.tag == "GunInteractable" && GunInteracttable == other.gameObject) {
+            if (other.gameObject.TryGetComponent(out IGun GunInterface)) {
+                GunInterface.UIGunUnDisplay();
+            }
+            GunInteracttable = null;
+        }
     }
 
     void AnimationCurveCounter() {
@@ -105,7 +145,7 @@ public class ControllerScript : MonoBehaviourPunCallbacks
         base.OnEnable();
         if (GetComponent<PhotonView>().IsMine) {
             PlayerInputAction.Enable();
-        }
+        } else { PlayerInputAction.Disable(); }
     }
     private void OnDisable() {
         base.OnDisable();

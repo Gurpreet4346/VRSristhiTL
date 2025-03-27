@@ -13,7 +13,9 @@ public class OrientPlayerToCamera : MonoBehaviour
     Vector2 LookInput;
     void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        if (PhotonView.IsMine) {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
         InputActionPlayer = new IAPlayer();
     }
 
@@ -34,9 +36,9 @@ public class OrientPlayerToCamera : MonoBehaviour
 
     }
     private void OnEnable() {
-        if (PhotonView.IsMine) { 
-        InputActionPlayer.Locomotion.Enable();
-        }
+        if (PhotonView.IsMine) {
+            InputActionPlayer.Locomotion.Enable();
+        } else { InputActionPlayer.Locomotion.Disable(); }
     }
     private void OnDisable() {
         InputActionPlayer.Locomotion.Disable();
