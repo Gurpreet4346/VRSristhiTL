@@ -1,8 +1,10 @@
 using System;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class OrientPlayerToCamera : MonoBehaviour
 {
+    [SerializeField] PhotonView PhotonView;
     [SerializeField] Transform PlayerTransform;
     private float yaw;
     private float pitch=0;
@@ -17,9 +19,11 @@ public class OrientPlayerToCamera : MonoBehaviour
 
     void Update()
     {
-        CalculateInput();
-        PlayerTransform.Rotate(Vector3.up*yaw);
-        transform.localRotation = Quaternion.Euler(pitch, 0f,0f);
+        if (PhotonView.IsMine) {
+            CalculateInput();
+            PlayerTransform.Rotate(Vector3.up * yaw);
+            transform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+        }
     }
 
     private void CalculateInput()
@@ -30,7 +34,9 @@ public class OrientPlayerToCamera : MonoBehaviour
 
     }
     private void OnEnable() {
+        if (PhotonView.IsMine) { 
         InputActionPlayer.Locomotion.Enable();
+        }
     }
     private void OnDisable() {
         InputActionPlayer.Locomotion.Disable();

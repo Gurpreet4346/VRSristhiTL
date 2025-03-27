@@ -54,16 +54,18 @@ public class ControllerScript : MonoBehaviourPunCallbacks
 
 
     void HandleMovement() {
+        if (GetComponent<PhotonView>().IsMine) { 
         MovementInput = (transform.forward*movementInput.y+transform.right*movementInput.x).normalized;
         AnimationCurveCounter();
         MovementVelocity = MovementInput * Speed* WalkSprintCurve.Evaluate(ACSpeedCounter) * Time.deltaTime;
+        }
+
         if (Cc.isGrounded && VerticalVelocity < 0) { 
             VerticalVelocity = 0; 
             AppliedGravity = gravityValue; // Small Gravity Value when grounded 
         }  else { AppliedGravity = gravityValue; }
         VerticalVelocity += AppliedGravity * Time.deltaTime;
         Debug.Log(VerticalVelocity);
-
         Cc.Move(new Vector3(MovementVelocity.x, VerticalVelocity, MovementVelocity.z));
 
     }
@@ -89,18 +91,21 @@ public class ControllerScript : MonoBehaviourPunCallbacks
 
     void InitializeInputAction() {
         PlayerInputAction = new IAPlayer();
+        if (GetComponent<PhotonView>().IsMine) { 
         PlayerInputAction.Locomotion.Movement.started += ctx => { movementInput = ctx.ReadValue<Vector2>(); };
         PlayerInputAction.Locomotion.Movement.performed += ctx => { movementInput = ctx.ReadValue<Vector2>(); };
         PlayerInputAction.Locomotion.Movement.canceled += ctx => { movementInput = ctx.ReadValue<Vector2>(); };
         PlayerInputAction.Locomotion.Jump.started += ctx => HandleJump();
         PlayerInputAction.Locomotion.Sprint.started += ctx => SprintPressed = true;
         PlayerInputAction.Locomotion.Sprint.canceled += ctx => SprintPressed = false;
-
+        }
     }
 
     private void OnEnable() {
         base.OnEnable();
-        PlayerInputAction.Enable(); 
+        if (GetComponent<PhotonView>().IsMine) {
+            PlayerInputAction.Enable();
+        }
     }
     private void OnDisable() {
         base.OnDisable();
